@@ -1,0 +1,21 @@
+persona: developer
+model: default
+run_mode: subagent # inline | subagent
+
+input:
+  description: Code changes or pull request to review.
+  required:
+    - change_scope
+  optional:
+    - diff
+    - pr_url
+    - focus_areas
+    - acceptance_criteria
+
+output:
+  description: Ordered review findings with severities and remediation direction.
+  artifacts:
+    - findings
+    - severity_summary
+    - validation_notes
+    - remaining_uncertainty

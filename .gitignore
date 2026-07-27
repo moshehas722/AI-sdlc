@@ -1,0 +1,19 @@
+# Cursor / editor ignores
+# .context/ is intentionally tracked — do not add .context to ignore rules below.
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+*.swp
+*.swo
+*~
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log

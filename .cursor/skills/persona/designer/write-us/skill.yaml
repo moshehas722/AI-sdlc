@@ -1,0 +1,20 @@
+persona: designer
+model: gpt-5.2
+run_mode: subagent # inline | subagent
+
+input:
+  description: Feature or problem context for writing a user story.
+  required:
+    - feature_or_problem
+  optional:
+    - persona_or_actor
+    - constraints
+    - acceptance_hints
+    - priority
+
+output:
+  description: User story with acceptance criteria suitable for backlog use.
+  artifacts:
+    - user_story
+    - acceptance_criteria
+    - notes

@@ -1,0 +1,21 @@
+persona: developer
+model: default
+run_mode: inline # inline | subagent
+
+input:
+  description: Bug report or failing behavior to diagnose and fix.
+  required:
+    - problem_statement
+  optional:
+    - reproduction_steps
+    - logs
+    - failing_tests
+    - suspected_files
+
+output:
+  description: Root-cause analysis, code fix, and validation notes.
+  artifacts:
+    - root_cause
+    - code_changes
+    - validation_results
+    - remaining_risk

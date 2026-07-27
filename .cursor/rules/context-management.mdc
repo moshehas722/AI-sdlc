@@ -1,0 +1,110 @@
+---
+description: How to discover, access, and read the .context/ project knowledge manifest on demand
+alwaysApply: true
+---
+
+# Context Management
+
+## Purpose
+
+`.context/` is the repo's manifest-driven knowledge base. Read it **selectively** via indices — never load the entire tree into every reply.
+
+Cross-tool entry point: root `AGENTS.md` → `.context/TOC.md`.
+
+## Access order
+
+1. **`.context/TOC.md`** — always start here.
+   - Use the **When to read** column as the trigger (e.g. "Before writing new code" → read `conventions.md`).
+   - Do not read every linked file; pick only what the current task needs.
+
+2. **Sub-indices** — when the topic has its own manifest, read the index instead of scanning the folder:
+   - **Why / decisions** → `.context/decisions/INDEX.md` (pointer table only)
+   - **Persona behavior learnings** → `.context/memory/<persona>.md`
+   - **Staged insights (unapproved)** → `.context/memory/pending/<persona>.md`
+
+3. **Target file** — open the specific markdown file TOC or the sub-index pointed to.
+
+4. **Human onboarding** — `.context/README.md` for system overview; not required for routine task context.
+
+## What each layer holds
+
+| Location | Contains | Do not use for |
+|----------|----------|----------------|
+| Top-level `*.md` | Repo facts: architecture, stack, conventions, gotchas | Persona tone/preferences |
+| `decisions/INDEX.md` | ADR pointer rows (#, title, status, summary) | Full decision text |
+| `decisions/NNNN-*.md` | Full ADR (Decision, Context, alternatives, consequences) | Quick lookup — use INDEX first |
+| `memory/<persona>.md` | Live persona behavioral learnings (loaded on persona switch) | Repo structure facts |
+| `memory/pending/<persona>.md` | Retrospective staging; not live | Authoritative behavior rules |
+
+Persona identity (`persona.md`) and audit history remain in `.harness/persona/<persona>/`.
+
+## Reading rules
+
+### Frontmatter
+
+Every context file (except some human stubs) has YAML frontmatter. Check before trusting content:
+
+```yaml
+status: inferred | confirmed | generated | needs-human-input
+verified_against: <git sha or ISO date>
+source: static-analysis | llm-synthesis | human-authored
+```
+
+| Status | Agent behavior |
+|--------|----------------|
+| `generated` | Trust for versions/facts from tooling (e.g. dependencies) |
+| `confirmed` | Trust as reviewed |
+| `inferred` | Useful draft — verify against code if the decision matters |
+| `needs-human-input` | Do not invent content (applies to `business-overview.md`) |
+
+### Architecture vs decisions
+
+- **`architecture.md`** — current-state snapshot only. Facts + markdown links to ADRs.
+- **ADR rationale** — read linked files under `decisions/`, not inline in architecture.
+- **`decisions/INDEX.md`** — never paste full ADR bodies; follow links to `NNNN-title.md`.
+
+### Deterministic vs synthesized files
+
+| File | Source | Regenerate via |
+|------|--------|----------------|
+| `dependencies.md`, `technology-stack.md` | Scanner (`.context/scripts/`) | `/context/update-context <file>` |
+| `api-documentation.md` | Schemas or code inference | `/context/update-context api-documentation.md` |
+| `architecture.md`, `conventions.md`, `gotchas.md` | Synthesis | `/context/update-context <file>` (diff review) |
+
+Never LLM-guess dependency versions or API signatures.
+
+## When to load context
+
+Load `.context/` files when the task involves:
+
+- Repo structure, skills, personas, commands, or conventions
+- Technology choices, dependencies, or API/skill I/O contracts
+- Understanding *why* something is shaped a certain way (→ `decisions/INDEX.md`)
+- Persona behavior learnings approved into `.context/memory/`
+
+Skip bulk loading when:
+
+- The task is purely local to one file and conventions are already in the reply context
+- Only persona skill behavior is needed and `.context/memory/<persona>.md` is already loaded
+
+## Maintenance (commands)
+
+Context lifecycle commands live under `.cursor/commands/context/`:
+
+| Command | Use |
+|---------|-----|
+| `/context/seed-context` | Initial or full refresh |
+| `/context/update-context <file>` | Refresh one file |
+| `/context/new-adr "<title>"` | New decision record |
+| `/context/retrospective` | Session insights → pending only |
+| `/context/consolidate-memory <persona>` | Propose memory cleanup |
+| `/context/consolidate-decisions` | Propose ADR cleanup |
+
+Retrospective and consolidate commands **propose** changes; never auto-write live memory or confirmed ADRs.
+
+## Guardrails
+
+- Start at `TOC.md`; read indices before folder scans.
+- Do not fabricate `business-overview.md`.
+- Do not edit confirmed ADRs in place — supersede with a new numbered ADR.
+- Do not auto-merge `memory/pending/` into live memory files.
