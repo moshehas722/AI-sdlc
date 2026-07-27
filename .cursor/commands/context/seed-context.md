@@ -67,8 +67,9 @@ Generate or refresh each file in a **separate** focused step:
 | `conventions.md` | Sample-based synthesis | Read representative files, not whole repo |
 | `gotchas.md` | Comment mining + guardrails | Flag low-confidence items |
 | `decisions/*.md` | Evidence-based ADRs | `status: inferred`; sequential numbering |
-| `memory/<persona>.md` | Stub if missing | Empty section scaffold; do not invent learnings |
-| `memory/pending/` | Ensure exists | Do not populate unless retrospective data exists |
+| `persona/<persona>/memory.md` | Stub if missing | Empty section scaffold; do not invent learnings |
+| `persona/<persona>/memory-staging.md` | Stub if missing | Do not populate unless retrospective data exists |
+| `persona/<persona>/audit.md` | Stub if missing | Audit template from `/persona/persona-audit` command |
 
 ### 4. ADR candidates
 
@@ -83,7 +84,7 @@ From discovery evidence, create candidate ADRs in `.context/decisions/`:
 
 After all files exist:
 
-- **`.context/TOC.md`** — one row per top-level file; actionable "When to read" triggers; exclude `decisions/` and `memory/` internals (link to their indices).
+- **`.context/TOC.md`** — one row per top-level file; actionable "When to read" triggers; exclude `decisions/` and `persona/` internals (link to their indices).
 - **`.context/decisions/INDEX.md`** — pointer table only; one row per ADR.
 
 ### 6. Config checks

@@ -1,14 +1,14 @@
-# Designer Memory
+# Developer Memory
 
 When this memory is loaded, its banner line is:
 
 ```text
-*** LOADED MEMORY FOR PERSONA: designer ***
+*** LOADED MEMORY FOR PERSONA: developer ***
 ```
 
 Print it only as part of the persona-management fenced `text` banner block (own line; never inline with other banners).
 
-_Staging: `.context/memory/pending/designer.md` — promote via `/persona/persona-promote-memory`._
+_Staging: `.context/persona/developer/memory-staging.md` — promote via `/persona/persona-promote-memory`._
 
 ## Preferences
 
@@ -16,7 +16,7 @@ _Staging: `.context/memory/pending/designer.md` — promote via `/persona/person
 
 ## Working patterns
 
-<!-- How designer should approach tasks in this repo -->
+<!-- How developer should approach tasks in this repo -->
 
 ## Do
 

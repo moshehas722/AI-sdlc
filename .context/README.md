@@ -16,8 +16,7 @@ Structured, on-demand repo knowledge for AI agents (Cursor, Claude Code, and sim
 ├── TOC.md                 ← start here
 ├── *.md                   ← top-level context topics
 ├── decisions/             ← numbered ADRs + INDEX.md
-├── memory/                ← per-persona behavioral learnings
-│   └── pending/           ← retrospective staging (never auto-merged)
+├── persona/               ← per-persona memory.md, memory-staging.md, audit.md
 └── scripts/               ← deterministic tooling (dependency scanner)
 ```
 
@@ -57,10 +56,10 @@ Architecture Decision Records live in `decisions/NNNN-title.md`. See `decisions/
 | Location | Holds |
 |----------|-------|
 | `.context/*.md` (top-level) | Repo facts: architecture, stack, conventions |
-| `.context/memory/<persona>.md` | Live persona behavioral learnings (loaded on persona switch) |
-| `.context/memory/pending/<persona>.md` | Staged insights awaiting promotion |
-| `.harness/persona/<persona>/persona.md` | Persona identity and banner instructions |
-| `.harness/persona/<persona>/audit.md` | Session performance audit history |
+| `.harness/persona/<persona>.md` | Persona identity and banner instructions |
+| `.context/persona/<persona>/memory.md` | Live persona behavioral learnings (loaded on persona switch) |
+| `.context/persona/<persona>/memory-staging.md` | Staged insights awaiting promotion |
+| `.context/persona/<persona>/audit.md` | Session performance audit history |
 
 ## Slash commands
 

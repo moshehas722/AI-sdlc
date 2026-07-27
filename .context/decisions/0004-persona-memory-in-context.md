@@ -2,6 +2,7 @@
 status: inferred
 evidence: none — reconstructed from code; structural refactor 2026-07-27
 supersedes: 0002
+superseded_by: 0005
 ---
 
 # 0004 — Persona memory lives in `.context/memory/`
@@ -24,3 +25,5 @@ Persona memory existed in two parallel trees (`.harness/persona/*/memory.md` and
 - Persona switch loads `.harness/persona/<persona>/persona.md` + `.context/memory/<persona>.md`.
 - `/persona/persona-retrospective` and `/persona/persona-promote-memory` read/write `.context/memory/` paths.
 - New personas require `.context/memory/<persona>.md` and `.context/memory/pending/<persona>.md` stubs in addition to `.harness/persona/<persona>/persona.md`.
+
+> **Superseded by [0005](0005-persona-memory-under-context-persona.md)** — memory relocated to `.context/persona/<persona>/`.

@@ -23,17 +23,17 @@ This command must **not** select, switch, or clear an active persona.
 
 Score how the persona performed **in this session**, append a history row, and refresh the **Current** scorecard so trends are visible over time.
 
-File: `.harness/persona/<persona>/audit.md`
+File: `.context/persona/<persona>/audit.md`
 
 ## Workflow
 
 1. **Resolve personas**
    - If an argument is given, use that persona only.
    - Otherwise infer from banners / `.cursor/skills/persona/<persona>/` usage in the chat.
-   - Ensure `.harness/persona/<persona>/audit.md` exists (create from the template below if missing).
+   - Ensure `.context/persona/<persona>/audit.md` exists (create from the template below if missing).
 
 2. **Score this session (1–5)**
-   - Use user feedback in the chat, staging entries (`.context/memory/pending/<persona>.md`), and observed behavior.
+   - Use user feedback in the chat, staging entries (`.context/persona/<persona>/memory-staging.md`), and observed behavior.
    - Score: Accuracy, Completeness, Consistency, Instruction fidelity, Scope discipline, Feedback uptake, Risk.
    - `Overall` = round(average of the dimension scores), unless the user states an overall.
    - Do not invent praise; if evidence is thin, score conservatively and note low confidence in Trigger/notes.
@@ -102,4 +102,4 @@ File: `.harness/persona/<persona>/audit.md`
 
 - Append history; never rewrite past session rows (except removing the seed row on first audit).
 - Only change **Current** to match the newest session.
-- Do not edit `persona.md`, `.context/memory/<persona>.md`, or `.context/memory/pending/<persona>.md` in this command.
+- Do not edit `.harness/persona/<persona>.md`, `.context/persona/<persona>/memory.md`, or `.context/persona/<persona>/memory-staging.md` in this command.

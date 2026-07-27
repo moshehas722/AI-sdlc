@@ -20,5 +20,5 @@ The harness needs a deterministic way to know when a skill belongs to a persona 
 
 ## Consequences
 
-- Adding a new persona requires `.cursor/skills/persona/<persona>/`, `.harness/persona/<persona>/` (persona.md, audit.md), and `.context/memory/<persona>.md` (+ pending stub).
+- Adding a new persona requires `.cursor/skills/persona/<persona>/`, `.harness/persona/<persona>.md`, and `.context/persona/<persona>/` (memory.md, memory-staging.md, audit.md).
 - Skills moved outside the persona tree silently stop selecting personas.

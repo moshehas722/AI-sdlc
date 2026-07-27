@@ -74,7 +74,7 @@ Workflow:
 |------|----------|
 | `business-overview.md` | Refuse auto-generation. Offer to refresh frontmatter date only, or remind user to fill manually. |
 | `decisions/*.md` | Do not regenerate in place. Use `/context/new-adr` or superseding ADR for changes. |
-| `memory/<persona>.md` | Do not overwrite live memory. Use `/context/retrospective` + `/context/consolidate-memory`. |
+| `persona/<persona>/memory.md` | Do not overwrite live memory. Use `/context/retrospective` + `/context/consolidate-memory`. |
 | `decisions/INDEX.md`, `TOC.md` | Rebuild from sibling files if requested; present diff if rows would be removed. |
 
 ## After update

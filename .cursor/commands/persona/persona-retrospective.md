@@ -12,13 +12,13 @@ Any text the user typed after `/persona/persona-retrospective` is extra context 
 
 ## Goal
 
-Read the full conversation, extract user feedback about how each persona performed, and write durable staging notes into `.context/memory/pending/<persona>.md` for every persona that was used (or explicitly discussed).
+Read the full conversation, extract user feedback about how each persona performed, and write durable staging notes into `.context/persona/<persona>/memory-staging.md` for every persona that was used (or explicitly discussed).
 
 ## Workflow
 
 1. **Inventory personas**
-   - List directories under `.harness/persona/` (or `.cursor/skills/persona/`).
-   - Ensure each has a `.context/memory/pending/<persona>.md` (create a minimal stub if missing).
+   - List persona names from `.harness/persona/*.md` (or `.cursor/skills/persona/`).
+   - Ensure each has a `.context/persona/<persona>/memory-staging.md` (create a minimal stub if missing).
 
 2. **Read the conversation and resolve persona scope**
    - Use the full chat history in context.
@@ -36,7 +36,7 @@ Read the full conversation, extract user feedback about how each persona perform
    - Ignore unrelated chatter. Prefer concrete, actionable notes over vague praise.
 
 4. **Update pending memory**
-   - For each persona with relevant feedback, read `.context/memory/pending/<persona>.md`.
+   - For each persona with relevant feedback, read `.context/persona/<persona>/memory-staging.md`.
    - Append a dated retrospective entry (do not wipe existing staging unless the user asks to reset).
    - Use the **Memory staging entry shape** below.
    - If a persona was used but received no user feedback, leave its pending file unchanged (optionally note that in the chat reply only).
@@ -48,7 +48,7 @@ Read the full conversation, extract user feedback about how each persona perform
 
 ## Memory entry structures
 
-### Pending memory (`.context/memory/pending/<persona>.md`)
+### Pending memory (`.context/persona/<persona>/memory-staging.md`)
 
 Chronological, append-only intake from this command:
 
@@ -69,7 +69,7 @@ Assign `Id` as `stg-YYYYMMDD-NN` (zero-padded sequence per persona per day, star
 Optional later fields when staging is reviewed: `Status: accepted | rejected | merged`.  
 Promote a specific entry with `/persona/persona-promote-memory <persona-name> <staging-memory-id>`.
 
-### Active memory (`.context/memory/<persona>.md`)
+### Active memory (`.context/persona/<persona>/memory.md`)
 
 Promote only durable, actionable notes — grouped by theme, not by chat turn:
 
@@ -103,6 +103,6 @@ Promote only durable, actionable notes — grouped by theme, not by chat turn:
 
 ## Guardrails
 
-- Do not edit `persona.md` or `.context/memory/<persona>.md` in this command.
+- Do not edit `.harness/persona/<persona>.md` or `.context/persona/<persona>/memory.md` in this command.
 - Do not invent feedback the user did not give.
 - Keep staging entries concise and persona-scoped.

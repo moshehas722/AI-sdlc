@@ -13,7 +13,7 @@ Manifest-driven repo knowledge for AI agents. Start here before deep-diving into
 | [conventions.md](conventions.md) | Naming, banners, memory lifecycle, context rules | Before writing new code, skills, commands, or docs in this repo |
 | [gotchas.md](gotchas.md) | Non-obvious constraints and footguns | After skimming architecture; before risky edits to persona or context files |
 | [decisions/INDEX.md](decisions/INDEX.md) | ADR pointer table | When you need the *why* behind a structural choice; follow links to full ADRs |
-| [memory/](memory/) | Per-persona behavioral learnings (see `pending/` for staging) | When adapting behavior for a specific persona after human-approved learnings |
+| [persona/](persona/) | Per-persona memory, staging, and audit | When adapting persona behavior or reviewing audit history |
 
 ## Maintenance commands
 

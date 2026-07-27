@@ -10,7 +10,7 @@ Best-effort extraction at seed time. No `NOTE:` / `WARNING:` comments were found
 
 ## Persona routing
 
-- **Missing persona files are hard failures.** If `persona.md` or `.context/memory/<persona>.md` is missing for a persona skill, the agent must stop — it will not fall back to the previous persona.
+- **Missing persona files are hard failures.** If `.harness/persona/<persona>.md` or `.context/persona/<persona>/memory.md` is missing for a persona skill, the agent must stop — it will not fall back to the previous persona.
 - **Model mismatch blocks the skill.** Non-`default` models in `skill.yaml` require user confirmation before banners or skill work run (e.g. designer `write-us` requests `gpt-5.2`).
 
 ## Memory and audit

@@ -6,7 +6,7 @@ source: llm-synthesis
 
 # Architecture (current state)
 
-Agentic SDLC harness: Cursor skills invoke persona-bound workflows; persona identity lives in `.harness/persona/`, persona memory in `.context/memory/`. No application runtime, database, or HTTP API — configuration and markdown artifacts only.
+Agentic SDLC harness: Cursor skills invoke persona-bound workflows; persona identity in flat `.harness/persona/*.md`; memory, staging, and audit in `.context/persona/<persona>/`. No application runtime, database, or HTTP API — configuration and markdown artifacts only.
 
 ## High-level layout
 
@@ -18,10 +18,10 @@ Agentic SDLC harness: Cursor skills invoke persona-bound workflows; persona iden
     ├── persona/    → persona lifecycle (audit, retrospective, promote)
     └── context/    → project context lifecycle (seed, update, ADR)
 
-.harness/persona/   → persona identity + audit (per persona)
+.harness/persona/   → persona identity files (<persona>.md)
 
-.context/           → repo knowledge manifest + persona memory
-    └── memory/     → live + pending persona behavioral learnings
+.context/           → repo knowledge manifest + persona state
+    └── persona/    → per-persona memory, staging, audit
 ```
 
 ## Component interactions
@@ -29,24 +29,25 @@ Agentic SDLC harness: Cursor skills invoke persona-bound workflows; persona iden
 | From | To | Interaction |
 |------|-----|-------------|
 | User | `.cursor/skills/persona/<persona>/<skill>/` | Invokes a skill; triggers persona selection per [0001](decisions/0001-persona-skills-under-cursor-tree.md) |
-| `persona-management` rule | `.harness/persona/<persona>/persona.md` + `.context/memory/<persona>.md` | Loads identity + memory on persona switch |
+| `persona-management` rule | `.harness/persona/<persona>.md` + `.context/persona/<persona>/memory.md` | Loads identity + memory on persona switch |
 | `skill.yaml` | Task subagent (when `run_mode: subagent`) | Delegates heavy skills per [0003](decisions/0003-subagent-run-mode-for-heavy-skills.md) |
-| Persona commands | `.context/memory/` + `.harness/persona/` | Retrospective → pending; promote → live memory; audit → audit.md |
+| Persona commands | `.context/persona/` + `.harness/persona/` | Retrospective → staging; promote → memory; audit → audit.md |
 | Context commands | `.context/` | Seed, update, ADR, retrospective, consolidate workflows |
 
 ## Persona selection flow
 
 1. Skill path under `.cursor/skills/persona/<persona>/` determines persona.
 2. Rule reads `skill.yaml` (model, run_mode, I/O contract).
-3. On persona switch: emit banner block, load `.harness/persona/<persona>/persona.md` + `.context/memory/<persona>.md`.
+3. On persona switch: emit banner block, load `.harness/persona/<persona>.md` + `.context/persona/<persona>/memory.md`.
 4. Execute skill inline or via subagent per `run_mode`.
 
 ## Data boundaries
 
 - **Repo facts** → `.context/` top-level files (architecture, conventions, ADRs, dependencies).
-- **Persona behavior (live)** → `.context/memory/<persona>.md` — see [0004](decisions/0004-persona-memory-in-context.md).
-- **Persona behavior (staging)** → `.context/memory/pending/<persona>.md` — never auto-promoted.
-- **Persona identity + audit** → `.harness/persona/<persona>/persona.md`, `audit.md`.
+- **Persona behavior (live)** → `.context/persona/<persona>/memory.md` — see [0006](decisions/0006-persona-identity-flat-audit-in-context.md).
+- **Persona behavior (staging)** → `.context/persona/<persona>/memory-staging.md` — never auto-promoted.
+- **Persona audit** → `.context/persona/<persona>/audit.md`.
+- **Persona identity** → `.harness/persona/<persona>.md`.
 
 ## Active personas
 
@@ -55,4 +56,4 @@ Agentic SDLC harness: Cursor skills invoke persona-bound workflows; persona iden
 | developer | fix-bug (inline), review-code (subagent) | mixed |
 | designer | write-us (subagent) | subagent |
 
-Persona memory is stored separately from skills and identity — see [0004](decisions/0004-persona-memory-in-context.md).
+Persona state is split: identity in `.harness/`, memory/audit in `.context/persona/` — see [0006](decisions/0006-persona-identity-flat-audit-in-context.md).

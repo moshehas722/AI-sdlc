@@ -8,7 +8,7 @@ When this command runs, print exactly:
 
 This command must **not** select, switch, or clear an active persona.
 
-> **Note:** This is the **project context** retrospective (repo facts + persona behavior). For persona-performance feedback only, `/persona/persona-retrospective` is equivalent — both write to `.context/memory/pending/<persona>.md`.
+> **Note:** This is the **project context** retrospective (repo facts + persona behavior). For persona-performance feedback only, `/persona/persona-retrospective` is equivalent — both write to `.context/persona/<persona>/memory-staging.md`.
 
 Any text after `/context/retrospective` is extra focus (e.g. a persona name or topic).
 
@@ -40,19 +40,19 @@ Tag every insight with:
 
 | Category | Destination | Action |
 |----------|-------------|--------|
-| Persona-general behavior | `.context/memory/pending/<persona>.md` | **Append** dated entry |
+| Persona-general behavior | `.context/persona/<persona>/memory-staging.md` | **Append** dated entry |
 | Repo-specific + decision-shaped | Draft new ADR file **or** propose via `/context/new-adr` | `status: inferred` unless user explicitly confirmed reasoning → `confirmed` |
 | Repo-specific + non-decision | `gotchas.md` or `conventions.md` | **Present as diff**; do not write |
 | Repo fact (architecture, inventory) | Relevant top-level file | **Present as diff**; do not write |
 
 **Never write to:**
 
-- `.context/memory/<persona>.md` (live memory — promote via `/persona/persona-promote-memory`)
+- `.context/persona/<persona>/memory.md` (live memory — promote via `/persona/persona-promote-memory`)
 - Existing ADRs with `status: confirmed`
 
 ### 4. Pending memory entry shape
 
-Append to `.context/memory/pending/<persona>.md` (create if missing):
+Append to `.context/persona/<persona>/memory-staging.md` (create if missing):
 
 ```markdown
 ## Retrospective YYYY-MM-DD

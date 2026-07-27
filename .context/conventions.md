@@ -24,9 +24,9 @@ Derived from a representative sample of existing files (persona-management rule,
 
 ## Persona files
 
-- Live persona identity: `.harness/persona/<persona>/persona.md`, `audit.md`.
-- Live persona memory: `.context/memory/<persona>.md`.
-- Memory promotion is explicit via `/persona/persona-promote-memory`; staging is append-only from `/persona/persona-retrospective` into `.context/memory/pending/<persona>.md`.
+- Live persona identity: `.harness/persona/<persona>.md`.
+- Live persona memory, staging, audit: `.context/persona/<persona>/memory.md`, `memory-staging.md`, `audit.md`.
+- Memory promotion is explicit via `/persona/persona-promote-memory`; staging is append-only from `/persona/persona-retrospective`.
 - Audit scores session performance; does not edit memory.
 
 ## Commands

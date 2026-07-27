@@ -1,4 +1,4 @@
-# Developer Audit
+# Designer Audit
 
 ## Current
 
@@ -21,7 +21,7 @@ Risk: higher = safer / lower chance of rework (1 = risky, 5 = safe).
 
 ## Session history
 
-Append-only. Newest at the bottom. `Overall` here is that session’s score; **Current** above is always the latest.
+Append-only. Newest at the bottom. `Overall` here is that session's score; **Current** above is always the latest.
 
 | Session | Date | Overall | Accuracy | Completeness | Consistency | Instruction fidelity | Scope discipline | Feedback uptake | Risk | Trigger / notes |
 |---------|------|---------|----------|--------------|-------------|----------------------|------------------|-----------------|------|-----------------|

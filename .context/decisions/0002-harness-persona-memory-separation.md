@@ -24,4 +24,4 @@ Skills define *what* to do; personas define *who* is acting and *how* they shoul
 - Persona switch loads two files from `.harness/` on every new persona.
 - `.context/memory/<persona>.md` mirrors context-system learnings but `.harness/` remains the live persona memory for skill execution today.
 
-> **Superseded by [0004](0004-persona-memory-in-context.md)** — memory and staging moved to `.context/memory/`.
+> **Superseded by [0004](0004-persona-memory-in-context.md)** — memory moved to `.context/`; see [0005](0005-persona-memory-under-context-persona.md) for current layout.

@@ -18,7 +18,7 @@ Parse text after `/persona/persona-promote-memory` as two required arguments:
 
 | Argument | Meaning | Example |
 |----------|---------|---------|
-| `persona-name` | Persona name (matches `.context/memory/<persona>.md`) | `designer`, `developer` |
+| `persona-name` | Persona name (matches `.context/persona/<persona>/memory.md`) | `designer`, `developer` |
 | `staging-memory-id` | Value of `Id:` on a staging entry | `stg-20260723-01` |
 
 If either argument is missing or ambiguous, stop and ask for:
@@ -29,13 +29,13 @@ If either argument is missing or ambiguous, stop and ask for:
 
 ## Goal
 
-Promote one staging entry from `.context/memory/pending/<persona>.md` into live `.context/memory/<persona>.md`, then mark the staging entry as merged.
+Promote one staging entry from `.context/persona/<persona>/memory-staging.md` into live `.context/persona/<persona>/memory.md`, then mark the staging entry as merged.
 
 ## Workflow
 
 1. **Resolve paths**
-   - Staging: `.context/memory/pending/<persona-name>.md`
-   - Memory: `.context/memory/<persona-name>.md`
+   - Staging: `.context/persona/<persona-name>/memory-staging.md`
+   - Memory: `.context/persona/<persona-name>/memory.md`
    - If either file is missing, stop and report the error.
 
 2. **Find the staging entry**
@@ -45,7 +45,7 @@ Promote one staging entry from `.context/memory/pending/<persona>.md` into live 
    - If `Status` is already `merged` or `rejected`, stop and say so (do not re-promote unless the user explicitly asks to force).
 
 3. **Map into active memory**
-   - Ensure `.context/memory/<persona-name>.md` uses the active memory shape (create sections if missing; keep the banner instructions if present).
+   - Ensure `.context/persona/<persona-name>/memory.md` uses the active memory shape (create sections if missing; keep the banner instructions if present).
    - Apply promotion rules:
 
      | Staging signal | → Memory section |
@@ -90,5 +90,5 @@ Promote one staging entry from `.context/memory/pending/<persona>.md` into live 
 
 - Only promote the single requested staging id.
 - Do not edit other personas.
-- Do not edit `.harness/persona/<persona>/persona.md`.
+- Do not edit `.harness/persona/<persona>.md`.
 - Do not invent content beyond the staging entry and clear promotion mapping.

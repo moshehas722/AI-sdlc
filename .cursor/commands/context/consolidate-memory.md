@@ -26,14 +26,14 @@ If missing, stop and ask:
 
 ## Goal
 
-Periodic maintenance for `.context/memory/<persona>.md` and `.context/memory/pending/<persona>.md`: dedupe overlapping entries, mark stale or contradicted items, keep files within a reasonable size. **Present proposed changes for review — do not apply automatically.**
+Periodic maintenance for `.context/persona/<persona>/memory.md` and `.context/persona/<persona>/memory-staging.md`: dedupe overlapping entries, mark stale or contradicted items, keep files within a reasonable size. **Present proposed changes for review — do not apply automatically.**
 
 ## Workflow
 
 ### 1. Load sources
 
-- Live: `.context/memory/<persona>.md`
-- Pending: `.context/memory/pending/<persona>.md`
+- Live: `.context/persona/<persona>/memory.md`
+- Pending: `.context/persona/<persona>/memory-staging.md`
 
 If live file missing, treat as empty scaffold.
 
@@ -75,7 +75,7 @@ For each proposed merge into live memory, show the **exact bullet text** that wo
 
 Apply changes **only** if the user explicitly approves in follow-up (e.g. "apply context/consolidate-memory developer"):
 
-- Merge approved bullets into `.context/memory/<persona>.md` under correct sections.
+- Merge approved bullets into `.context/persona/<persona>/memory.md` under correct sections.
 - Set approved pending entries `Status: merged` with `- Merged: YYYY-MM-DD`.
 - Rejected entries: `Status: rejected`.
 - Never delete pending history; update status in place.
