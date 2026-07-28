@@ -10,7 +10,7 @@ Flat catalog of modules and artifacts. Relationship and flow details are in `arc
 
 | Component | Path | Type | Description |
 |-----------|------|------|-------------|
-| Persona management rule | `.cursor/rules/persona-management.mdc` | Cursor rule | Always-on policy: persona routing, banners, model check, run_mode |
+| Persona instructions rule | `.harness/rules/persona-instructions.mdc` | Harness rule | Always-on policy: persona routing, banners, model check, run_mode |
 | Developer fix-bug skill | `.cursor/skills/persona/developer/fix-bug/` | Skill | Bug diagnosis and fix workflow (`run_mode: inline`) |
 | Developer review-code skill | `.cursor/skills/persona/developer/review-code/` | Skill | Code review workflow (`run_mode: subagent`) |
 | Designer write-us skill | `.cursor/skills/persona/designer/write-us/` | Skill | User story authoring (`run_mode: subagent`) |

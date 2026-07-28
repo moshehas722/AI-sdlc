@@ -11,6 +11,6 @@ Skill banner line:
 *** USING SKILL: review-code ***
 ```
 
-Print it only as part of the persona-management fenced `text` banner block (own line; never inline with other banners). No prose before the block.
+Print it only as part of the persona-instructions fenced `text` banner block (own line; never inline with other banners). No prose before the block.
 
 No need for real action — this is just a test.

@@ -12,13 +12,15 @@ Agentic SDLC harness: Cursor skills invoke persona-bound workflows; persona iden
 
 ```
 .cursor/
-├── rules/          → always-on agent policies (persona routing, context access)
+├── rules/          → harness.mdc loader (context + persona instructions)
 ├── skills/persona/ → persona-bound skill definitions + contracts
 └── commands/       → slash-command workflows
     ├── persona/    → persona lifecycle (audit, retrospective, promote)
     └── context/    → project context lifecycle (seed, update, ADR)
 
-.harness/persona/   → persona identity files (<persona>.md)
+.harness/
+├── rules/          → context-instructions.mdc, persona-instructions.mdc
+└── persona/        → persona identity files (<persona>.md)
 
 .context/           → repo knowledge manifest + persona state
     └── persona/    → per-persona memory, staging, audit
@@ -29,15 +31,15 @@ Agentic SDLC harness: Cursor skills invoke persona-bound workflows; persona iden
 | From | To | Interaction |
 |------|-----|-------------|
 | User | `.cursor/skills/persona/<persona>/<skill>/` | Invokes a skill; triggers persona selection per [0001](decisions/0001-persona-skills-under-cursor-tree.md) |
-| `persona-management` rule | `.harness/persona/<persona>.md` + `.context/persona/<persona>/memory.md` | Loads identity + memory on persona switch |
+| `persona-instructions` rule | `.harness/persona/<persona>.md` + `.context/persona/<persona>/memory.md` | Loads identity + memory on persona switch |
 | `skill.yaml` | Task subagent (when `run_mode: subagent`) | Delegates heavy skills per [0003](decisions/0003-subagent-run-mode-for-heavy-skills.md) |
 | Persona commands | `.context/persona/` + `.harness/persona/` | Retrospective → staging; promote → memory; audit → audit.md |
 | Context commands | `.context/` | Seed, update, ADR, retrospective, consolidate workflows |
 
 ## Persona selection flow
 
-1. Skill path under `.cursor/skills/persona/<persona>/` determines persona.
-2. Rule reads `skill.yaml` (model, run_mode, I/O contract).
+1. Skill path under `.cursor/skills/persona/` gates persona selection (non-persona skills are excluded).
+2. Rule reads `skill.yaml`; `persona` field is the sole authority for which persona to load.
 3. On persona switch: emit banner block, load `.harness/persona/<persona>.md` + `.context/persona/<persona>/memory.md`.
 4. Execute skill inline or via subagent per `run_mode`.
 

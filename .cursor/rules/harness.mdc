@@ -1,0 +1,11 @@
+---
+description: Load harness agent policies (context instructions and persona instructions)
+alwaysApply: true
+---
+
+# Harness Rules
+
+Apply the following harness policies from `.harness/rules/`:
+
+@.harness/rules/context-instructions.mdc
+@.harness/rules/persona-instructions.mdc

@@ -10,12 +10,15 @@ Best-effort extraction at seed time. No `NOTE:` / `WARNING:` comments were found
 
 ## Persona routing
 
-- **Missing persona files are hard failures.** If `.harness/persona/<persona>.md` or `.context/persona/<persona>/memory.md` is missing for a persona skill, the agent must stop — it will not fall back to the previous persona.
+- **Persona comes from `skill.yaml` only.** The `persona` field in `skill.yaml` selects which identity and memory to load; folder names under `.cursor/skills/persona/` are not used for routing.
+- **Missing persona files are hard failures.** If `.harness/persona/<persona>.md` or `.context/persona/<persona>/memory.md` is missing for the yaml-declared persona, the agent must stop — it will not fall back to the previous persona.
 - **Model mismatch blocks the skill.** Non-`default` models in `skill.yaml` require user confirmation before banners or skill work run (e.g. designer `write-us` requests `gpt-5.2`).
 
 ## Memory and audit
 
 - **`/persona/persona-retrospective` never writes to live memory.** Promotion requires `/persona/persona-promote-memory <persona> <staging-id>`.
+- **`/context/retrospective` and `/persona/persona-retrospective` share staging.** Both append persona-behavior insights to `.context/persona/<persona>/memory-staging.md`; context retrospective also proposes diffs for repo facts.
+- **Staging ID prefixes differ by command.** `/context/retrospective` uses `ctx-stg-YYYYMMDD-NN`; `/persona/persona-retrospective` uses `stg-YYYYMMDD-NN`.
 - **Audit history is append-only.** Past session rows are not rewritten (except removing the seed row on first real audit).
 
 ## Context system

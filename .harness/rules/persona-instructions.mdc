@@ -1,5 +1,5 @@
 ---
-description: Agentic SDLC active-persona routing from skill path with switch and load-once-while-active policy
+description: Agentic SDLC active-persona routing from skill.yaml persona field with switch and load-once-while-active policy
 alwaysApply: true
 ---
 
@@ -7,7 +7,7 @@ alwaysApply: true
 
 ## Scope
 
-Persona management applies **only** to skills under `.cursor/skills/persona/<persona>/<skill>/`.
+Persona management applies **only** to skills under `.cursor/skills/persona/`.
 Skills outside that tree do not select, switch, load, or clear a persona.
 
 ## Active persona
@@ -20,27 +20,26 @@ Track one **active persona** for the conversation:
 
 ## Persona selection
 
-1. When applying a skill under `.cursor/skills/persona/`, resolve its path as `.cursor/skills/persona/<persona>/<skill>/SKILL.md`.
-2. Infer `<persona>` from that path segment (examples: `.cursor/skills/persona/developer/fix-bug/SKILL.md` → `developer`, `.cursor/skills/persona/designer/write-us/SKILL.md` → `designer`).
-3. Read `.cursor/skills/persona/<persona>/<skill>/skill.yaml` for `persona`, `model`, `run_mode` (`inline` | `subagent`), `input`, and `output`. If `skill.yaml` is missing, stop and report a configuration error for that skill.
-4. Confirm `skill.yaml` `persona` matches the path `<persona>` segment. On mismatch, stop and report a configuration error.
-5. **Model check** against `skill.yaml` `model` (see **Model mismatch confirmation**). If confirmation is required, stop here and wait for the user — do not emit banners or run the skill yet.
-6. Map that value to `.harness/persona/<persona>.md` and `.context/persona/<persona>/memory.md`.
-7. If the skill is not under `.cursor/skills/persona/`, do not run persona selection for this skill; leave the active persona unchanged and proceed without loading persona/memory for this request.
-8. If the skill is under `.cursor/skills/persona/` but the matching `.harness/persona/<persona>.md` or `.context/persona/<persona>/memory.md` file is missing, stop and report a configuration error for that skill. Do not silently reuse the previous active persona for this request.
-9. Compare the inferred persona to the current active persona:
+1. When applying a skill under `.cursor/skills/persona/`, resolve the skill directory containing `SKILL.md` and `skill.yaml`.
+2. Read `skill.yaml` for `persona`, `model`, `run_mode` (`inline` | `subagent`), `input`, and `output`. If `skill.yaml` is missing, stop and report a configuration error for that skill.
+3. Use `skill.yaml` `persona` as the **sole authority** for persona selection. Do not infer or override persona from the path. If `persona` is missing or empty, stop and report a configuration error.
+4. **Model check** against `skill.yaml` `model` (see **Model mismatch confirmation**). If confirmation is required, stop here and wait for the user — do not emit banners or run the skill yet.
+5. Map that value to `.harness/persona/<persona>.md` and `.context/persona/<persona>/memory.md`.
+6. If the skill is not under `.cursor/skills/persona/`, do not run persona selection for this skill; leave the active persona unchanged and proceed without loading persona/memory for this request.
+7. If the skill is under `.cursor/skills/persona/` but the matching `.harness/persona/<persona>.md` or `.context/persona/<persona>/memory.md` file is missing, stop and report a configuration error for that skill. Do not silently reuse the previous active persona for this request.
+8. Compare the resolved persona (from `skill.yaml`) to the current active persona:
 
    - **Same as active** → do not reload the persona or memory files; do not print the switch header, persona banner, or memory banner. Print only the skill banner (see Banner layout).
    - **Different from active** (including first load) → switch: set active persona, then emit the full banner block per **Banner layout** (header + persona + memory + skill), then continue.
-10. Never keep two personas active. A switch replaces the previous active persona.
-11. Treat the emitted banner block as a **single reply prefix event** for that skill application. After printing it once, do not print any persona header/banner lines again later in the same response, in intermediary updates for the same skill application, or in the final closeout unless a new persona-selection event occurs.
-12. Honor `run_mode` from `skill.yaml` (required):
+9. Never keep two personas active. A switch replaces the previous active persona.
+10. Treat the emitted banner block as a **single reply prefix event** for that skill application. After printing it once, do not print any persona header/banner lines again later in the same response, in intermediary updates for the same skill application, or in the final closeout unless a new persona-selection event occurs.
+11. Honor `run_mode` from `skill.yaml` (required):
 
    - **`inline`**: after the banner block, execute the skill workflow in the current agent and produce the `output.artifacts`.
    - **`subagent`**: after the banner block, execute the skill workflow in **exactly one sub-agent** (using the Task tool) and then render the returned `output.artifacts` in the parent.
 
      - The parent **must not** do the skill’s substantive work inline (beyond persona routing, printing the banner block, and launching the sub-agent).
-     - The sub-agent **must not** print the persona-management banner block (banners are owned by the parent response).
+     - The sub-agent **must not** print the persona-instructions banner block (banners are owned by the parent response).
      - The Task prompt **must** include the skill path, the `skill.yaml` `input` values supplied by the user, and the expected `output.artifacts`. Instruct the sub-agent to return **only** those artifacts (plus minimal notes if the contract includes `notes`).
      - Default to `run_in_background: false` so the parent can return artifacts in the same turn (unless the user explicitly asked to run in background).
 
@@ -50,8 +49,8 @@ Track one **active persona** for the conversation:
      You are running skill: .cursor/skills/persona/<persona>/<skill>/SKILL.md
      Contract: <paste skill.yaml input/output contracts>
      User input:
-     - feature_or_problem: ...
-     - persona_or_actor: ...
+     - <required-field>: ...
+     - <optional-field>: ...
      Return artifacts:
      - <artifact-1>
      - <artifact-2>
@@ -96,14 +95,14 @@ Do not include token usage in the header (not available reliably to the agent).
 
 ### On switch / first load
 
-Reply must start with exactly this shape (four lines inside one fence; substitute names/skill):
+Reply must start with exactly this shape (four lines inside one fence; substitute `<persona-name>` and `<skill-name>`):
 
 ````markdown
 ```text
-=== PERSONA: developer ===
-*** USING PERSONA: developer ***
-*** LOADED MEMORY FOR PERSONA: developer ***
-*** USING SKILL: fix-bug ***
+=== PERSONA: <persona-name> ===
+*** USING PERSONA: <persona-name> ***
+*** LOADED MEMORY FOR PERSONA: <persona-name> ***
+*** USING SKILL: <skill-name> ***
 ```
 ````
 
@@ -120,7 +119,7 @@ Reply must start with exactly this shape (one line inside one fence; substitute 
 ### Forbidden
 
 ```text
-=== PERSONA: developer === *** USING PERSONA: developer *** *** LOADED MEMORY FOR PERSONA: developer *** *** USING SKILL: fix-bug ***
+=== PERSONA: <persona-name> === *** USING PERSONA: <persona-name> *** *** LOADED MEMORY FOR PERSONA: <persona-name> *** *** USING SKILL: <skill-name> ***
 ```
 
 Also forbidden: the same banners as plain paragraph text joined by spaces.
@@ -130,7 +129,7 @@ Also forbidden: printing the correct fenced banner at the start of a reply and t
 
 - After the banner block, continue with the skill workflow using `skill.yaml` `input` / `output` contracts.
 - Skills contain task workflow only; they must not instruct loading or reloading a persona or its memory.
-- If both `review-code` and `fix-bug` apply: review first; fix only when the user authorized edits.
+- When multiple persona skills apply in one turn, follow any sequencing rules defined in the relevant skill workflows or agent rules.
 - Model handling is governed only by **Model mismatch confirmation** above.
 
 ## Token discipline

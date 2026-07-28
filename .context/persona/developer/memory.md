@@ -6,7 +6,7 @@ When this memory is loaded, its banner line is:
 *** LOADED MEMORY FOR PERSONA: developer ***
 ```
 
-Print it only as part of the persona-management fenced `text` banner block (own line; never inline with other banners).
+Print it only as part of the persona-instructions fenced `text` banner block (own line; never inline with other banners).
 
 _Staging: `.context/persona/developer/memory-staging.md` — promote via `/persona/persona-promote-memory`._
 

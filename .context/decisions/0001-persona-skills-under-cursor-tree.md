@@ -11,7 +11,7 @@ Only skills whose path matches `.cursor/skills/persona/<persona>/<skill>/` parti
 
 ## Context
 
-The harness needs a deterministic way to know when a skill belongs to a persona versus a generic Cursor skill. The `persona-management` rule scopes all routing logic to this path prefix.
+The harness needs a deterministic way to know when a skill belongs to a persona versus a generic Cursor skill. The `persona-instructions` rule scopes all routing logic to this path prefix.
 
 ## Rejected alternatives
 

@@ -6,13 +6,13 @@ source: llm-synthesis
 
 # Conventions
 
-Derived from a representative sample of existing files (persona-management rule, skill.yaml contracts, command markdown, persona docs). Patterns not enforced by lint/CI.
+Derived from a representative sample of existing files (persona-instructions rule, skill.yaml contracts, command markdown, persona docs). Patterns not enforced by lint/CI.
 
 ## Persona and skills
 
-- Persona-bound skills live only under `.cursor/skills/persona/<persona>/<skill>/`.
+- Persona-bound skills live only under `.cursor/skills/persona/` (typically organized as `<persona>/<skill>/`).
 - Every persona skill has a `skill.yaml` with `persona`, `model`, `run_mode`, `input`, and `output`.
-- `skill.yaml` `persona` must match the directory segment `<persona>`.
+- `skill.yaml` `persona` is the sole authority for persona selection; path segments are organizational only.
 - Skills outside the persona tree do not trigger persona selection.
 
 ## Banners
@@ -31,7 +31,8 @@ Derived from a representative sample of existing files (persona-management rule,
 
 ## Commands
 
-- Commands print `*** USING COMMAND: <name> ***` as their banner.
+- Commands print `*** USING COMMAND: <namespace>/<name> ***` as their banner.
+- Slash commands live in `.cursor/commands/<namespace>/` and invoke as `/<namespace>/<command>` (e.g. `/context/seed-context`, `/persona/persona-audit`).
 - Commands do not select or switch personas unless explicitly part of their workflow.
 
 ## Context files
@@ -40,9 +41,13 @@ Derived from a representative sample of existing files (persona-management rule,
 - ADRs are immutable once `status: confirmed`; reversals create a new ADR with `supersedes` / `superseded_by`.
 - `architecture.md` states facts and links to ADRs — no inline decision rationale.
 
+## Agent entry points
+
+- **`AGENTS.md` is a lean pointer only** — one-paragraph overview, link to `.context/TOC.md`, and references to Cursor rules. Do not duplicate command lists, path tables, or rule content from `.cursor/rules/` or `.context/`.
+
 ## Naming
 
 - Persona names: lowercase single token (`developer`, `designer`).
 - Skill folders: kebab-case (`fix-bug`, `write-us`, `review-code`).
 - ADR files: `NNNN-kebab-title.md` (zero-padded sequence).
-- Staging IDs: `stg-YYYYMMDD-NN`; audit session IDs: `sess-YYYYMMDD-NN`.
+- Staging IDs: `stg-YYYYMMDD-NN` (persona retrospective) or `ctx-stg-YYYYMMDD-NN` (context retrospective); audit session IDs: `sess-YYYYMMDD-NN`.
